@@ -1,31 +1,10 @@
 ---
-title: "Data Mining(2021)-MidTerm Report"
-author: "72200117 Kim Hee Ju"
-date: '2021 4 26 '
-output:
-  html_document:
-    toc: yes
-    toc_depth: 4
-    toc_float: true
-    theme: yeti
-    keep_md: yes
-
----
-
-<style>
-body {
-  font-family: NanumGothic;
-  font-size: 17px;
-}
-</style>
-
----
 
 *Title: "Data Mining(2021)-MidTerm Report"*  
 *Author: "72200117 Kim Hee Ju"*  
 *Due date: '2021 4 28 '*  
 
-------
+---
 
 <br>  
 
