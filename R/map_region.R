@@ -1,17 +1,17 @@
-###4.Áöµµ¿¡ È¥ÀÎ ÀÎ±¸ Ç¥½Ã
+###4.ì§€ë„ì— í˜¼ì¸ ì¸êµ¬ í‘œì‹œ
 
-register_google(key='AIzaSyCovjI0rxava9Kchw7aHcos03VtaV_zOO8') # ºÎ¿©¹ŞÀº Å° µî·Ï
+register_google(key='GoogleMap_APIKEY') # ë¶€ì—¬ë°›ì€ í‚¤ ë“±ë¡
 
 df.wr.outlier
 #area
 list_region <- data.frame(area = c(1:7),
-                          region= c("¼­¿ïÆ¯º°½Ã",
-                                    "°æ±âµµ",
-                                    "°æ»ó³²µµ",
-                                    "°æ»óºÏµµ",
-                                    "ÃæÃ»³²µµ",
-                                    "ÃæÃ»ºÏµµ",
-                                    "Àü¶ó³²µµ"))
+                          region= c("ì„œìš¸íŠ¹ë³„ì‹œ",
+                                    "ê²½ê¸°ë„",
+                                    "ê²½ìƒë‚¨ë„",
+                                    "ê²½ìƒë¶ë„",
+                                    "ì¶©ì²­ë‚¨ë„",
+                                    "ì¶©ì²­ë¶ë„",
+                                    "ì „ë¼ë‚¨ë„"))
 list_region
 
 df.wr.outlier.2 <- left_join(df.wr.outlier, list_region, id="area")
@@ -26,23 +26,23 @@ map.region <- df.wr.outlier.2 %>%
   group_by(region) %>% 
   dplyr::summarise(n=n())
 
-gc <- geocode(enc2utf8(map.region$region)) # ÁöÁ¡ÀÇ °æµµÀ§µµ
+gc <- geocode(enc2utf8(map.region$region)) # ì§€ì ì˜ ê²½ë„ìœ„ë„
 gc
 
 df.city <- data.frame(name=map.region$region, lon= gc$lon,
                       lat=gc$lat)
 df.city
 
-cen <- c(mean(df.city$lon), mean(df.city$lat))# °æµµÀ§µµ¸¦ ¼ıÀÚ·Î
+cen <- c(mean(df.city$lon), mean(df.city$lat))# ê²½ë„ìœ„ë„ë¥¼ ìˆ«ìë¡œ
 map <- get_googlemap(center=cen,
                      maptype="roadmap", 
                      size=c(600,600), 
-                     zoom = 7)#Áöµµ»ı¼º
+                     zoom = 7)#ì§€ë„ìƒì„±
 
-gmap <- ggmap(map) # Áöµµ È­¸é¿¡ º¸ÀÌ±â ¹× ÀúÀå
+gmap <- ggmap(map) # ì§€ë„ í™”ë©´ì— ë³´ì´ê¸° ë° ì €ì¥
 
 df.city <- rename(df.city, c(name = "region"))
 map.region <- left_join(map.region, df.city, id="region")
 
-#±×·¡ÇÁ ±×¸®±â
-gmap+ geom_point(data=map.region, aes(x=lon, y=lat, col=n,size=n, stroke=10), alpha=1) + labs(col="¸í")  + ggtitle("Àü±¹ È¥ÀÎ°æÇè ÀÎ±¸ ºĞÆ÷(7±¸¿ªº°)") 
+#ê·¸ë˜í”„ ê·¸ë¦¬ê¸°
+gmap+ geom_point(data=map.region, aes(x=lon, y=lat, col=n,size=n, stroke=10), alpha=1) + labs(col="ëª…")  + ggtitle("ì „êµ­ í˜¼ì¸ê²½í—˜ ì¸êµ¬ ë¶„í¬(7êµ¬ì—­ë³„)") 
