@@ -1,18 +1,29 @@
 ---
-title: "Data Mining(2021)-중간고사 대체 과제"
+title: "Data Mining(2021)-MidTerm Report"
 author: "72200117 Kim Hee Ju"
 date: '2021 4 26 '
 output:
-  html_document: 
+  html_document:
     toc: yes
+    toc_depth: 4
+    toc_float: true
+    theme: yeti
     keep_md: yes
----
-
 
 ---
-*title: "Data Mining(2021)-MidTerm Report"*
-*author: "72200117 Kim Hee Ju"*
-*due date: '2021 4 28 '*
+
+<style>
+body {
+  font-family: NanumGothic;
+  font-size: 17px;
+}
+</style>
+
+---
+
+*Title: "Data Mining(2021)-MidTerm Report"*  
+*Author: "72200117 Kim Hee Ju"*  
+*Due date: '2021 4 28 '*  
 
 ------
 
@@ -39,8 +50,9 @@ output:
 > 본 과제의 데이터로 사용된 자료는 한국보건사회연구원에서 가구 경제활동을 연구해 정책 지원에 반영할 목적으로 발간하는 조사 자료인 **한국복지패널데이터**를 2015년부터 2020년, 총 6개년의 자료를 추적한 후, 이를 취합 및 가공한 것으로 사용하였였다. 이를 통해 현재 혼인과 관련된 시간적, 지역적 현황/추이를 살펴보고, 연관성이 있어 보이는 요소를 탐색하였다.  
 
  * 다운로드 링크   <https://www.koweps.re.kr:442/main.do>  
-  
+
    <br>
+
 ### **1. 데이터 분석 준비 - 타입, 패키지, 라이브러리**  
 
 <br>
@@ -72,7 +84,9 @@ library("gridExtra") #ggplot2 다중 분할 및 게시
 
   <br><br>
     
+
 ### **2.데이터 전처리 및 분석 절차**
+
 <br>
 해당 데이터들은 설문조사를 기반으로 한 데이터이며, 해 마다 일부 문항들에 대해 문항내용 및 답변이 바뀌기 때문에 사전에 제공되는 `Codebook`을 통해 변수를 확인/검수 해야한다. 이를 토대로 이번 시각화 및 분석에 필요한 변수들을 선별한 후, 분석 방향에 맞추어 정리한다. 
 
@@ -101,6 +115,7 @@ welfare.2019 <- rename(welfare.2019,
                        income_4=h14_pers_income4, #부업소득
                        income_5=h14_pers_income5) #농림축어업 소득
 ```
+
 <br>
 
 여기서 소득과 같은 부분은 각각 분리가 되어 있어 병합하여 하나의 변수로 활용하기 위해 다음과 같이 작업하였다.  
@@ -121,10 +136,12 @@ income <- coalesce(welfare.2019$income_1,
 <br>
 
 ***
+
 <br>
 <br>
 
 ### **3.전체 데이터 시각화-hist()**
+
 <br> 각 데이터들의 독자적인 성질을 확인하기 전에, 현재 들어있는 데이터셋을 통합해본 후, 각 변수들이 어떻게 분포하고 있는지를 확인해보았다. 우선 설문조사에 참여한 전체인원들에 대한 확인을 위해 2015~2020년 모든 데이터셋을 통합하여 히스토그램을 작성하였다. 
 
 <br>
@@ -180,12 +197,14 @@ par(mfrow=c(1,1))
 
 
 ```
+
 <br>
 
 ![Result_Hist](https://user-images.githubusercontent.com/19165180/116013040-fb6d8380-a668-11eb-8c84-806fcddfd968.jpeg)
-<br>을 보았을 때, 아무리 법정 혼인불가 인원을 제했음에도 불구하고, 연 소득이 0~1000(만원)미만의 인구가 많은 까닭은, 경제활동 가능 인구에서 제외된 노년층들도 모두 포함이 되어 있기 때문이다.   
+<br>
+이후에도 그래프를 보았을 때, 아무리 법정 혼인불가 인원을 제했음에도 불구하고, 연 소득이 0~1000(만원)미만의 인구가 많은 까닭은, 경제활동 가능 인구에서 제외된 노년층들도 모두 포함이 되어 있기 때문이다.   
 
-그러나 혼인률에는 이미 결혼을 했으나 이혼을 한 자, 사별을 한 자 등 현재 배우자가 없어도 혼인을 했었던 경험이 있으면 모두 포함을 시키기 때문에 해당 데이터들은 모두 유효하다고 판단하였다. 
+그러나 혼인률에는 이미 결혼을 했으나 이혼을 한 자, 사별을 한 자 등 현재 배우자가 없어도 혼인을 했었던 경험이 있으면 모두 포함을 시키기 때문에 노년층이 해당되는 것이 맞다고 판단하였고, 해당 데이터들은 모두 유효하다고 판단하였다. 
 
 <br><br>
 
@@ -201,12 +220,15 @@ freq(df.2019$marriage) #Frequency Percent 동시에 계산해서 보여줌
 
 freq(df.2020$marriage)
 ```
+
 <center><img src="https://user-images.githubusercontent.com/19165180/116211780-234f0b00-a77f-11eb-9b29-e53fc297f83e.jpg" alt="freq" style="zoom:67%;" /></center>
 
 <center>
 <img src="https://user-images.githubusercontent.com/19165180/116211782-23e7a180-a77f-11eb-8957-baafacba4e4c.jpg" alt="df2019" style="zoom:67%;" /> 
 <img src="https://user-images.githubusercontent.com/19165180/116211776-22b67480-a77f-11eb-99e2-48b54de0e0bd.jpg" alt="df2020" style="zoom:67%;" />
 </center>
+
+
 <br>
 
 ```r
@@ -252,10 +274,11 @@ list_region <- data.frame(area = c(1:7),
 list_region
 welfare.2015 <- left_join(welfare.2015, list_region, id="area")
 ```
+
 <br>
 <br>  
 
-#### (1) 연도-지역별 설문 참여 그래프    
+#### **(1) 연도-지역별 설문 참여 그래프**    
 
 각 년도마다 지역에서 참여한 인원 수를 우선 시각화 하였다. 매년 설문조사 참여 인원수가 감소추세였기 때문에, 전국적으로 인원들이 감소추세를 함께 따라가고 있는 경향을 보이고 있다. 이는 두 가지 요인으로 추정된다.
 
@@ -272,12 +295,15 @@ ggplot(df.region_cnt,aes(x=year.r, y=n ,colour=region, group=region))+
             aes(x=year.r, y=n+100),
             size=3, col="black", label=df.region_cnt$n)
 ```
+
 <br>
 
 ![Result_year.region](https://user-images.githubusercontent.com/19165180/116013803-f9a5bf00-a66c-11eb-95f4-1bbd33427d2f.jpeg)
 <br>  
+<br>
+<br>  
 
-#### (2) 지역별 총 설문 참여 그래프 
+#### **(2) 지역별 총 설문 참여 그래프** 
 
 년도와 상관없이 현재 총 설문조사에 참여한 인원의 현황을 파악하였다.   
 
@@ -300,12 +326,14 @@ ggplot(result.total_cnt,
   theme(plot.title = element_text(color = "black", size = 14, face="bold"),
         axis.text.x = element_text(angle=45))
 ```
+
 <br>
 
 ![Result_tot.region](https://user-images.githubusercontent.com/19165180/116013849-3ffb1e00-a66d-11eb-8a11-90409c3e5f96.jpeg)
 <br>  
+<br> <br>   
 
-#### (3) 연도-지역별 혼인률 추이 그래프    
+#### **(3) 연도-지역별 혼인률 추이 그래프**    
 
 앞서 `연도-지역별 설문 참여`데이터를 기반으로 해당 지역의 혼인률은 얼마나 되는지 확인하였다.   
 
@@ -370,9 +398,9 @@ ggplot(df.region_marriage,
 
 ![Result_rate.region](https://user-images.githubusercontent.com/19165180/116013870-5b662900-a66d-11eb-92f9-048978076ca3.jpeg)<br>
 
-<br>  
+<br>  <br> <br> 
 
-#### (4) 지역별 혼인 경험 인구 분포    
+#### **(4) 지역별 혼인 경험 인구 분포**    
 
 지역별 혼인 경험 인구 분포를 지도에 `ggmap()` 과  `geom_point()`를 통해서 지도 상에 혼인률 분포를 시각화 하여 나타내 주었다.  원의 크기와 색의 명도를 통해 단계를 구분지어 주었다. 다만, 원본 데이터의 지역구분이 '시/도'단위였기 때문에 더 상세한 분포가 아닌 큰 단위로 나타내어 정확한 분포를 나타낸다고 보기는 어렵다고 판단된다.   
 
@@ -425,6 +453,7 @@ map.region <- left_join(map.region, df.city, id="region")
 #그래프 그리기
 gmap+ geom_point(data=map.region, aes(x=lon, y=lat, col=n,size=n, stroke=10), alpha=1) + labs(col="명")  + ggtitle("전국 혼인경험 인구 분포(7구역별)") 
 ```
+
 <br>
 
 ![Result_map](https://user-images.githubusercontent.com/19165180/116013780-e72b8580-a66c-11eb-8e0b-b9250f13cb53.jpeg)
@@ -469,6 +498,7 @@ edu_marriage <- df.wr.outlier %>%
 <br><br>
 
 ### **7.종교 유무에 따른 혼인률 비교**
+
 <br>
 
 종교 유무에 따른 혼인률을 비교하였다.  혼인상태의 두 변수를 전처리한 후, 집단 별 빈도를 구하여 혼인 경험 보유자들에 해당하는 값만 추출하여 혼인률 표를 만들고, 이를 이용하여 그래프를 만들었다. 
@@ -494,11 +524,13 @@ ggplot(religion_marriage,
        aes(x=group_marriage, y=pct, color=religion, fill=religion))+
   geom_col(position = "dodge")
 ```
+
 <br>
 ![Result_religion](https://user-images.githubusercontent.com/19165180/116013759-bfd4b880-a66c-11eb-825c-3509ba47918a.jpeg)
 <br><br>
 
 ### **8.직업-임금-혼인유무 시각화 및 분석 **
+
 <br>
 
 혼인률과 직접적인 연관이 있을 것이라고 생각한 직업과 관련하여 다양한 시각화 작업을 진행해 보았다. 처음에는 임금에 따른 혼인률을 분석하려 하였으나, 임금에 대한 전처리 과정에서 이상치 분석 및 정제를 통한 결과들이 분석을 하기에 어려움이 있어 다음과 같이 시각화 및 분석 작업을 진행하였다.
@@ -528,6 +560,7 @@ job_marriage.bot <- df.wr.outlier %>%
   arrange(n) %>% 
   head(10)
 ```
+
 <br>
 ![Result_job.vote](https://user-images.githubusercontent.com/19165180/116013899-9700f300-a66d-11eb-9e64-e3079aa61c42.jpeg)
 <br>
@@ -559,6 +592,7 @@ income.bot <- job_income %>%
 <br>
 
 <br>
+
 ```r
 ##직업-혼인율 비율 구하기
 
@@ -599,6 +633,7 @@ top30 <- fin.job_rate[c(1:15),]
 fin.job_rate <- arrange(fin.job_rate, pnt)
 bot30 <- fin.job_rate[c(1:15),]
 ```
+
 <br>
 ![Result_job.rate](https://user-images.githubusercontent.com/19165180/116013900-98322000-a66d-11eb-8e3b-e7d97427334c.jpeg)
 <br><br>
@@ -620,13 +655,15 @@ df.birth.rate <- df.birth %>%
   group_by(age, group_marriage) %>% 
   dplyr::summarise(n = n())
 ```
+
 <br>
 ![Result_age](https://user-images.githubusercontent.com/19165180/116013902-98322000-a66d-11eb-9f43-48be697e5319.jpeg)
 
 <br>
 <br>  
 
-### Conclusion  
+### **Conclusion**  
+
 시각화를 진행하면서 다양한 데이터들을 전처리, 시각화, 분석을 진행해보았다.   
 
 처음 분석 및 시각화 설계는 다음과 같이 진행하려고 하였다.   
@@ -652,6 +689,8 @@ df.birth.rate <- df.birth %>%
 <img width="234" alt="income_box_fail2" src="https://user-images.githubusercontent.com/19165180/116204164-6efdb680-a777-11eb-8e77-53d912f8e158.png">
 <img width="480" alt="income_box_fail" src="https://user-images.githubusercontent.com/19165180/116204166-6f964d00-a777-11eb-9821-6a16a17fd1e8.png">
 </center>
+
+
 `pairs()`를 통해서 판단하였을 때, 회귀분석 등의 솔루션도 현재 데이터의 상태로는 무의미할 것으로 판단이 되고, 아직 정제를 어떤 방향으로 해야할지, 어떤 기법들을 써야할지 아직 방향을 잡지 못하여 이번에 R을 처음 접하면서 현재 할 수 있는 것들을 기반으로 진행을 해 보았다.  
 
 다양한 시각화 방법을 통해 현재 주어진 데이터 셋 내에서 조합할 수 있는 시각화를 진행해 보았으며, 이를 토대로 확인한 결과 다음과 같은 결과를 도출해 내었다.   <br>
@@ -669,7 +708,7 @@ df.birth.rate <- df.birth %>%
 
 <br>
 
-#### R codes 
+#### **R codes** 
 
 본 과제의 소스코드는 `Github`에 모두 공개되어 있으며, 소스코드 및 사용한 데이터셋을 모두 확인할 수 있습니다.
 
